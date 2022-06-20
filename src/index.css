@@ -1,0 +1,42 @@
+body, html {
+  /* background-color: #121212;
+  color: #fff; */
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.TopAppBar {
+  margin-bottom: 20px;
+}
+.Exercise{
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 5px;
+}
+
+.question {
+  margin-bottom: 30px !important;
+}
+
+.aaa {
+  background-color: red;
+}
+
+.selectedAnswer {
+  background-color: rgba(144, 202, 249, 0.3) !important
+}
+
+.correct {
+  background-color: green !important;
+}
+.wrong {
+  background-color: red !important;
+}
+.button {
+  opacity: 1 !important;
+}
+
