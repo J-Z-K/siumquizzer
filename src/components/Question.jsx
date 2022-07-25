@@ -10,12 +10,12 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { bazy } from '../common';
 import { Context } from '../context/Context';
-import { database } from '../utils/firebaseConf';
+import { auth, database } from '../utils/firebaseConf';
 import ButtonRow from './ButtonRow';
 
 function Question({ question, next }) {
   const { answers, correct } = question;
-  const context = useContext(Context);
+  const { userSession, repo } = useContext(Context);
   const [error, setError] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState();
   const [showCorrect, setShowCorrect] = React.useState(false);
@@ -31,18 +31,19 @@ function Question({ question, next }) {
     event?.preventDefault();
 
     setShowCorrect(true);
-    const qid = question.id;
-    const { uid } = context.userInfo;
-    const repo = bazy[context.repo.selectedRepo].path;
-    if (context?.userSession?.started) {
-      if (parseInt(index, 10) === correct[0]) {
-        set(ref(database, `users/${uid}/session/${repo}/correct/_${qid}/correct`), true);
-        setError(false);
-      } else {
-        const counter = context.userSession[repo]?.incorrect[qid]?.counter || 0;
-        console.log(counter);
-        set(ref(database, `users/${uid}/session/${repo}/incorrect/${qid}/`), { correct: false, counter: counter + 1 });
-        setError(true);
+    if (auth.currentUser) {
+      const qid = question.id;
+      const { uid } = auth.currentUser;
+      const { path } = bazy[repo.selectedRepo];
+      if (userSession?.started) {
+        if (parseInt(index, 10) === correct[0]) {
+          set(ref(database, `users/${uid}/session/${path}/correct/_${qid}/correct`), true);
+          setError(false);
+        } else {
+          const counter = userSession[path]?.incorrect[`_${qid}`]?.counter || 0;
+          set(ref(database, `users/${uid}/session/${path}/incorrect/_${qid}/`), { correct: false, counter: counter + 1 });
+          setError(true);
+        }
       }
     }
   };

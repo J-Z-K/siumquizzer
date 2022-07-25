@@ -11,15 +11,15 @@ import { bazy } from '../common';
 import { Context } from '../context/Context';
 import { database } from '../utils/firebaseConf';
 
-function SideMenu({ toggleDrawer, selectedRepo, setSelectedRepo }) {
-  const context = useContext(Context);
+function SideMenu({ toggleDrawer }) {
+  const { userInfo, userSession, repo } = useContext(Context);
 
   const handleStartSession = () => {
-    set(ref(database, `users/${context.userInfo.uid}/session/started`), true);
+    set(ref(database, `users/${userInfo.uid}/session/started`), true);
   };
 
   const handleEndSession = () => {
-    set(ref(database, `users/${context.userInfo.uid}/session/started`), false);
+    set(ref(database, `users/${userInfo.uid}/session/`), { started: false });
   };
 
   return (
@@ -30,11 +30,11 @@ function SideMenu({ toggleDrawer, selectedRepo, setSelectedRepo }) {
         onKeyDown={toggleDrawer(false)}
       >
         {
-        context.userInfo
+        userInfo
             && (
             <List>
               <ListSubheader>SiumQuizzer Menu</ListSubheader>
-              {!context.userSession.started
+              {!userSession?.started
                 ? (
                   <ListItem disablePadding>
                     <ListItemButton onClick={handleStartSession}>
@@ -58,19 +58,22 @@ function SideMenu({ toggleDrawer, selectedRepo, setSelectedRepo }) {
             </List>
             )
         }
-        <List>
-          <ListSubheader>SiumQuizzer - baza pytań</ListSubheader>
-          {bazy.map((el, i) => (
-            <ListItemButton
-              selected={context.repo.selectedRepo === i}
-              onClick={() => context.repo.setSelectedRepo(i)}
-              className={`button ${context.repo.selectedRepo === i ? 'selectedAnswer' : ''}`}
-              key={el.path}
-            >
-              <ListItemText primary={el.name} />
-            </ListItemButton>
-          ))}
-        </List>
+        {repo
+          && (
+          <List>
+            <ListSubheader>SiumQuizzer - baza pytań</ListSubheader>
+            {bazy.map((el, i) => (
+              <ListItemButton
+                selected={repo.selectedRepo === i}
+                onClick={() => repo.setSelectedRepo(i)}
+                className={`button ${repo.selectedRepo === i ? 'selectedAnswer' : ''}`}
+                key={el.path}
+              >
+                <ListItemText primary={el.name} />
+              </ListItemButton>
+            ))}
+          </List>
+          )}
 
       </Box>
     </div>

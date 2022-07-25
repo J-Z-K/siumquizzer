@@ -9,9 +9,7 @@ function Main() {
   return (
     <>
       <TopAppBar />
-      {
-        context.userInfoLoaded ? <Exercise /> : null
-      }
+      <Exercise />
     </>
   );
 }

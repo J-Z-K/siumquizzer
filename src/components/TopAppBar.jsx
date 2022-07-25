@@ -70,7 +70,7 @@ export default function TopAppBar() {
                   <Button onClick={handleClickLoginOpen} color="inherit">Login</Button>
                 </>
               )
-              : <Button onClick={() => { signOut(auth); console.log(auth.currentUser, context); }} color="inherit">Logout</Button>
+              : <Button onClick={() => signOut(auth)} color="inherit">Logout</Button>
               : ''
           }
         </Toolbar>

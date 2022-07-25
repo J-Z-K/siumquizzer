@@ -48,9 +48,6 @@ export default function LoginDialog({ handleClose, open, type }) {
             uid: user.uid,
             session: {
               started: false,
-              answers: [],
-              goodAnswers: {},
-              badAnswers: {},
             },
           });
           handleOk();
